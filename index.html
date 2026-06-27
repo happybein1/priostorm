@@ -88,14 +88,21 @@
   li:nth-child(odd){background:#fafbfc}
   li.dragging{opacity:.5}
   .txt{flex:1 1 100%;font-weight:700;padding-left:.2rem;border-radius:3px;cursor:default}
+  .txt::after{content:' · dbl-click to edit';font-size:10px;color:#bbb;font-weight:400}
   .txt[contenteditable="true"]{outline:2px solid var(--teal);padding:.1rem .25rem;cursor:text;background:#f0fafa}
-  .txt-hint{font-size:10px;color:#aaa;font-weight:400;margin-left:.3rem}
+  .txt[contenteditable="true"]::after{content:''}
   .sliders{display:flex;gap:.3rem;align-items:center;margin-top:.1rem;flex-wrap:wrap}
   .sliders label{font-size:11px;font-weight:700}
   .sliders input{width:3rem;accent-color:var(--teal)}
   .prio{background:#222;color:#fff;padding:.1rem .25rem;border-radius:3px;font-size:11px;font-weight:900;min-width:2rem;text-align:center;cursor:help}
   .rm{background:transparent;color:#d00;border:none;font-size:15px;cursor:pointer;line-height:1;margin-left:.2rem;padding:0 .2rem}
   .rm:hover{background:transparent;color:#900}
+  .notes-btn{background:transparent;color:#aaa;border:1px solid #ddd;font-size:11px;font-weight:700;font-family:inherit;padding:.1rem .35rem;border-radius:3px;cursor:pointer;line-height:1.4}
+  .notes-btn:hover{background:#f0fafa;color:var(--teal-dark);border-color:var(--teal)}
+  .notes-btn.has-note{color:var(--teal-dark);border-color:var(--teal);background:#e8f7f7}
+  .notes-area{display:none;flex:1 1 100%;box-sizing:border-box;margin-top:.3rem;padding:.35rem .4rem;font-size:12px;font-family:inherit;border:1px solid #d0e8e8;border-radius:4px;resize:vertical;min-height:3.5rem;color:#333;background:#f8fffe;line-height:1.45}
+  .notes-area:focus{border-color:var(--teal);outline:none;background:#fff}
+  .notes-area.open{display:block}
 
   /* FIXED PREVIEW */
   #outWrap{margin-top:.5rem;background:#fff;border:1px solid #ccc;border-radius:4px;padding:.4rem;max-height:10rem;overflow:auto;font-size:12px}
@@ -200,6 +207,7 @@
       </li>
       <li><strong>Priority score</strong> = (I × U) ÷ (E + 1). Higher is better.</li>
       <li><strong>Edit an item:</strong> double-click its title to rename it.</li>
+      <li><strong>Add notes:</strong> click the 📝 button on any item to expand a free-text notes area for context, reasoning or brainstorming. A filled note turns the button teal. Notes are saved and included in the CSV export.</li>
       <li><strong>Preset shortcuts</strong> let you quickly set I/U/E defaults for your next item — e.g. "Quick Win" sets I=5 U=5 E=1.</li>
       <li><strong>Matrix quick guide:</strong>
         <ul>
@@ -355,7 +363,7 @@ undoBtn.onclick = () => {
     saved.push(undoSnapshot.item);
     localStorage.setItem(undoSnapshot.key, JSON.stringify(saved));
     if(curKey() === undoSnapshot.key){
-      const card = makeCard(undoSnapshot.item.text, undoSnapshot.item.i, undoSnapshot.item.u, undoSnapshot.item.e);
+      const card = makeCard(undoSnapshot.item.text, undoSnapshot.item.i, undoSnapshot.item.u, undoSnapshot.item.e, undoSnapshot.item.notes||'');
       list.appendChild(card);
       if(autoSortCk.checked) sortList();
       buildMatrix(); buildOut(); updateEmptyState();
@@ -365,27 +373,44 @@ undoBtn.onclick = () => {
 };
 
 /* ----------  CARD FACTORY  ---------- */
-function makeCard(text, i=3, u=3, e=2){
+function makeCard(text, i=3, u=3, e=2, notes=''){
   const li = document.createElement('li');
   li.draggable = true;
-  li.innerHTML = `<div class="txt" title="Double-click to edit">${text}<span class="txt-hint">dbl-click to edit</span></div>
+  li.innerHTML = `<div class="txt">${text}</div>
 <div class="sliders">
   <label>I<input type="range" class="i" min="0" max="5" value="${i}"></label>
   <label>U<input type="range" class="u" min="0" max="5" value="${u}"></label>
   <label>E<input type="range" class="e" min="0" max="5" value="${e}"></label>
   <span class="prio" title="Score = Impact × Urgency ÷ (Effort + 1)">P=${prio(+i,+u,+e).toFixed(1)}</span>
 </div>
-<button class="rm" title="Delete">×</button>`;
+<button class="notes-btn" title="Toggle notes">📝</button>
+<button class="rm" title="Delete">×</button>
+<textarea class="notes-area" placeholder="Add notes, context or brainstorming thoughts…"></textarea>`;
 
   // Slider events
   ['i','u','e'].forEach(c => li.querySelector('.'+c).addEventListener('input', () => updateCard(li)));
 
+  // Notes toggle
+  const notesBtn  = li.querySelector('.notes-btn');
+  const notesArea = li.querySelector('.notes-area');
+  if(notes){ notesArea.value = notes; notesBtn.classList.add('has-note'); }
+  notesBtn.onclick = () => {
+    const opening = !notesArea.classList.contains('open');
+    notesArea.classList.toggle('open', opening);
+    if(opening) notesArea.focus();
+  };
+  notesArea.addEventListener('input', () => {
+    notesBtn.classList.toggle('has-note', notesArea.value.trim().length > 0);
+    saveToStorage();
+  });
+  // Prevent drag starting on the textarea
+  notesArea.addEventListener('mousedown', e => e.stopPropagation());
+  notesArea.addEventListener('dragstart',  e => e.stopPropagation());
+
   // Double-click to edit text
   const txtEl = li.querySelector('.txt');
-  const hintEl = li.querySelector('.txt-hint');
   txtEl.addEventListener('dblclick', () => {
-    // Remove hint, make editable
-    hintEl.remove();
+    li.draggable = false;           // prevent drag interfering with text selection
     txtEl.contentEditable = 'true';
     txtEl.focus();
     // Select all text
@@ -398,7 +423,7 @@ function makeCard(text, i=3, u=3, e=2){
   txtEl.addEventListener('blur', () => {
     if(txtEl.contentEditable !== 'true') return;
     txtEl.contentEditable = 'false';
-    // Prevent empty title
+    li.draggable = true;
     if(!txtEl.textContent.trim()) txtEl.textContent = text;
     saveToStorage();
     buildOut();
@@ -410,10 +435,11 @@ function makeCard(text, i=3, u=3, e=2){
   // Delete with undo
   li.querySelector('.rm').onclick = () => {
     const itemData = {
-      text: li.querySelector('.txt').textContent.trim(),
-      i: li.querySelector('.i').value,
-      u: li.querySelector('.u').value,
-      e: li.querySelector('.e').value
+      text:  li.querySelector('.txt').textContent.trim(),
+      i:     li.querySelector('.i').value,
+      u:     li.querySelector('.u').value,
+      e:     li.querySelector('.e').value,
+      notes: li.querySelector('.notes-area').value
     };
     li.remove();
     buildMatrix(); buildOut(); saveToStorage(); updateEmptyState();
@@ -475,10 +501,11 @@ copyBtn.onclick = () => {
 };
 
 csvBtn.onclick = () => {
-  const rows = [['Rank','Item','Impact','Urgency','Effort','Score']];
+  const rows = [['Rank','Item','Impact','Urgency','Effort','Score','Notes']];
   [...list.querySelectorAll('li')].forEach((c,idx)=>{
     const i=c.querySelector('.i').value, u=c.querySelector('.u').value, e=c.querySelector('.e').value;
-    rows.push([idx+1, '"'+c.querySelector('.txt').textContent.trim().replace(/"/g,'""')+'"', i, u, e, cardPrio(c).toFixed(2)]);
+    const notesTxt = c.querySelector('.notes-area').value.replace(/"/g,'""');
+    rows.push([idx+1, '"'+c.querySelector('.txt').textContent.trim().replace(/"/g,'""')+'"', i, u, e, cardPrio(c).toFixed(2), '"'+notesTxt+'"']);
   });
   const csv = rows.map(r=>r.join(',')).join('\n');
   const blob = new Blob([csv], {type:'text/csv'});
@@ -500,12 +527,12 @@ autoSortCk.onchange = () => { if(autoSortCk.checked) sortList(); };
 
 /* ----------  MATRIX  ---------- */
 const CELL_LABELS = [
-  // row 2 (high impact)
-  ['Quick Wins ⭐','Plan it 📋','Big Bets 🏗️'],
-  // row 1 (mid impact)
-  ['Fill-ins','Medium','Consider'],
-  // row 0 (low impact)
+  // index 0 = low impact (bottom row)
   ['Skip?','Skip?','Drop 🗑️'],
+  // index 1 = mid impact (middle row)
+  ['Fill-ins','Medium','Consider'],
+  // index 2 = high impact (top row)
+  ['Quick Wins ⭐','Plan it 📋','Big Bets 🏗️'],
 ];
 
 function urgencyColor(u){
@@ -550,10 +577,11 @@ function buildMatrix(){
 function saveToStorage(){
   if(document.querySelector('.dragging')) return;
   const arr = [...list.querySelectorAll('li')].map(li=>({
-    text: li.querySelector('.txt').textContent.trim(),
-    i: li.querySelector('.i').value,
-    u: li.querySelector('.u').value,
-    e: li.querySelector('.e').value
+    text:  li.querySelector('.txt').textContent.trim(),
+    i:     li.querySelector('.i').value,
+    u:     li.querySelector('.u').value,
+    e:     li.querySelector('.e').value,
+    notes: li.querySelector('.notes-area').value
   }));
   localStorage.setItem(curKey(), JSON.stringify(arr));
 }
@@ -562,7 +590,7 @@ function loadFromStorage(){
   try{
     const raw = localStorage.getItem(curKey());
     if(!raw) return;
-    JSON.parse(raw).forEach(item=>list.appendChild(makeCard(item.text,item.i,item.u,item.e)));
+    JSON.parse(raw).forEach(item=>list.appendChild(makeCard(item.text,item.i,item.u,item.e,item.notes||'')));
     buildMatrix(); buildOut();
     if(autoSortCk.checked) sortList();
   }catch(e){}
