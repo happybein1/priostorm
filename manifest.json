@@ -1,0 +1,17 @@
+{
+  "name": "PrioStorm by HappyBein",
+  "short_name": "PrioStorm",
+  "description": "Brainstorm and prioritize ideas with a simple importance/urgency/effort matrix. No account needed.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0055CC",
+  "theme_color": "#0055CC",
+  "orientation": "portrait",
+  "scope": "/",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" },
+    { "src": "favicon.svg",  "sizes": "any",      "type": "image/svg+xml" }
+  ],
+  "categories": ["productivity", "utilities"]
+}
