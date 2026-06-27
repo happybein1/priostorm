@@ -54,9 +54,15 @@
 
   /* PROJECT BAR */
   #projBar{display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem;font-size:13px}
-  #bar{display:flex;gap:.3rem;margin-bottom:.4rem}
+  #bar{display:flex;gap:.3rem;margin-bottom:.25rem}
   #bar input{flex:1;padding:.35rem;font-size:14px;border:1px solid #bbb;border-radius:4px;font-family:inherit}
   #bar input:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:transparent}
+  #noteToggleBtn{background:transparent;color:#aaa;border:1px solid #ddd;font-size:13px;padding:.1rem .35rem;border-radius:4px;cursor:pointer}
+  #noteToggleBtn:hover{background:#f0fafa;color:var(--teal-dark);border-color:var(--teal)}
+  #noteToggleBtn.active{color:var(--teal-dark);border-color:var(--teal);background:#e8f7f7}
+  #newNote{display:none;width:100%;box-sizing:border-box;margin-bottom:.35rem;padding:.35rem .4rem;font-size:13px;font-family:inherit;border:1px solid #d0e8e8;border-radius:4px;resize:vertical;min-height:3rem;background:#f8fffe;color:#333}
+  #newNote:focus{border-color:var(--teal);outline:none;background:#fff}
+  #newNote.open{display:block}
 
   /* BUTTONS */
   button{padding:.3rem .55rem;font-size:13px;font-weight:700;font-family:inherit;border:none;border-radius:4px;background:var(--teal);color:#fff;cursor:pointer;transition:background .15s}
@@ -146,8 +152,10 @@
 
 <div id="bar">
   <input id="newItem" placeholder="Type an idea and press Enter" autocomplete="off">
+  <button id="noteToggleBtn" title="Add a note with this idea">📝</button>
   <button id="addBtn">Add</button>
 </div>
+<textarea id="newNote" placeholder="Optional note or context…"></textarea>
 
 <!-- DEFAULTS FOR NEXT ITEM -->
 <div id="presetSection">
@@ -481,12 +489,28 @@ function buildOut(){
 }
 
 /* ----------  ADD  ---------- */
+const newNote       = document.getElementById('newNote');
+const noteToggleBtn = document.getElementById('noteToggleBtn');
+
+noteToggleBtn.onclick = () => {
+  const opening = !newNote.classList.contains('open');
+  newNote.classList.toggle('open', opening);
+  noteToggleBtn.classList.toggle('active', opening);
+  if(opening) newNote.focus();
+};
+
 function add(){
   const v = input.value.trim();
   if(!v) return;
-  const card = makeCard(v, +pi.value, +pu.value, +pe.value);
+  const note = newNote.value;
+  const card = makeCard(v, +pi.value, +pu.value, +pe.value, note);
   list.appendChild(card);
   input.value = '';
+  newNote.value = '';
+  // Collapse note area after adding
+  newNote.classList.remove('open');
+  noteToggleBtn.classList.remove('active');
+  input.focus();
   if(autoSortCk.checked) sortList();
   buildMatrix(); buildOut(); saveToStorage(); updateEmptyState();
 }
