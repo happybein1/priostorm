@@ -598,7 +598,10 @@ function buildMatrix(){
 }
 
 /* ----------  STORAGE  ---------- */
+let _loading = false;
+
 function saveToStorage(){
+  if(_loading) return;
   if(document.querySelector('.dragging')) return;
   const arr = [...list.querySelectorAll('li')].map(li=>({
     text:  li.querySelector('.txt').textContent.trim(),
@@ -611,13 +614,15 @@ function saveToStorage(){
 }
 
 function loadFromStorage(){
+  _loading = true;
   try{
     const raw = localStorage.getItem(curKey());
-    if(!raw) return;
-    JSON.parse(raw).forEach(item=>list.appendChild(makeCard(item.text,item.i,item.u,item.e,item.notes||'')));
+    if(raw) JSON.parse(raw).forEach(item=>list.appendChild(makeCard(item.text,item.i,item.u,item.e,item.notes||'')));
     buildMatrix(); buildOut();
     if(autoSortCk.checked) sortList();
   }catch(e){}
+  _loading = false;
+  saveToStorage(); // one clean save once all items are in the DOM
 }
 
 /* ----------  INIT  ---------- */
