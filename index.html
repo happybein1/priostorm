@@ -9,189 +9,258 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg" />
 <meta name="author" content="HappyBein — happybein.com" />
 <meta name="robots" content="index, follow" />
-<meta name="theme-color" content="#0055CC" />
-
-<!-- Open Graph -->
+<meta name="theme-color" content="#2ABFBF" />
 <meta property="og:type"        content="website" />
 <meta property="og:url"         content="https://priostorm.happybein.com" />
 <meta property="og:title"       content="PrioStorm by HappyBein — Prioritize your ideas" />
 <meta property="og:description" content="Brainstorm and prioritize ideas with a simple importance/urgency/effort matrix. Rank what matters most. Free, no account needed." />
 <meta property="og:site_name"   content="PrioStorm by HappyBein" />
-
-<!-- Twitter Card -->
 <meta name="twitter:card"        content="summary_large_image" />
 <meta name="twitter:title"       content="PrioStorm by HappyBein" />
 <meta name="twitter:description" content="Prioritize your ideas with an importance/urgency/effort matrix. Free, no install." />
-
-<!-- GA4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-TJFL5YQ705"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-TJFL5YQ705', { anonymize_ip: true });
-</script>
-
-<!-- PWA -->
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TJFL5YQ705',{anonymize_ip:true});</script>
 <link rel="manifest" href="manifest.json" />
 <link rel="apple-touch-icon" href="icon-192.png" />
 <script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js');</script>
-
-<!-- HappyBein font -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --i:#0077ff;--u:#ff7700;--e:#e60000;
-    --teal:#2ABFBF;--teal-dark:#1A9A9A;
-    --bg:#f4f7fb;
-  }
-  html,body{min-height:100vh;margin:0;padding:.5rem;background:var(--bg);font-family:'Nunito',system-ui,Roboto,Helvetica,Arial;font-size:14px}
-  h1{margin:0 0 .5rem;font-size:1.25rem;font-weight:900;color:#1A3333}
-  h1 span{color:var(--teal)}
+:root {
+  --teal:#2ABFBF; --teal-dark:#1A9A9A; --teal-light:#E8F7F7; --teal-mid:#C5EAEA;
+  --ink:#1A3333; --muted:#6B8F8F; --border:#D6ECEC; --bg:#F4FAFA; --card:#fff;
+  --shadow-sm:0 1px 4px rgba(26,51,51,0.07); --shadow:0 2px 14px rgba(26,51,51,0.1);
+  --radius:16px; --radius-sm:10px; --radius-xs:7px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;background:var(--bg);font-family:'Nunito',system-ui,Arial,sans-serif;font-size:14px;color:var(--ink)}
+button{font-family:inherit;cursor:pointer}
 
-  /* PROJECT BAR */
-  #projBar{display:flex;gap:.5rem;align-items:center;margin-bottom:.4rem;font-size:13px}
-  #bar{display:flex;gap:.3rem;margin-bottom:.25rem}
-  #bar input{flex:1;padding:.35rem;font-size:14px;border:1px solid #bbb;border-radius:4px;font-family:inherit}
-  #bar input:focus{outline:2px solid var(--teal);outline-offset:1px;border-color:transparent}
-  #noteToggleBtn{background:transparent;color:#aaa;border:1px solid #ddd;font-size:13px;padding:.1rem .35rem;border-radius:4px;cursor:pointer}
-  #noteToggleBtn:hover{background:#f0fafa;color:var(--teal-dark);border-color:var(--teal)}
-  #noteToggleBtn.active{color:var(--teal-dark);border-color:var(--teal);background:#e8f7f7}
-  #newNote{display:none;width:100%;box-sizing:border-box;margin-bottom:.35rem;padding:.35rem .4rem;font-size:13px;font-family:inherit;border:1px solid #d0e8e8;border-radius:4px;resize:vertical;min-height:3rem;background:#f8fffe;color:#333}
-  #newNote:focus{border-color:var(--teal);outline:none;background:#fff}
-  #newNote.open{display:block}
+/* ── HEADER ── */
+.app-header{background:linear-gradient(135deg,#0F766E 0%,var(--teal) 100%);padding:1.4rem 1.25rem 1.25rem}
+.app-header__inner{max-width:680px;margin:0 auto;display:flex;align-items:center;gap:.9rem}
+.app-logo{width:46px;height:46px;background:rgba(255,255,255,0.18);border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0}
+.app-header h1{font-size:1.6rem;font-weight:900;color:#fff;line-height:1;letter-spacing:-.5px}
+.app-header h1 span{color:rgba(255,255,255,.6)}
+.app-tagline{font-size:.75rem;color:rgba(255,255,255,.7);margin-top:2px}
+.proj-bar{margin-left:auto;display:flex;align-items:center;gap:5px;flex-shrink:0}
+.proj-bar select{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:var(--radius-xs);padding:4px 8px;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;max-width:120px}
+.proj-bar select option{background:#1A3333}
+.proj-bar button{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;border-radius:var(--radius-xs);padding:4px 9px;font-size:12px;font-weight:700;transition:background .15s}
+.proj-bar button:hover{background:rgba(255,255,255,.28)}
 
-  /* BUTTONS */
-  button{padding:.3rem .55rem;font-size:13px;font-weight:700;font-family:inherit;border:none;border-radius:4px;background:var(--teal);color:#fff;cursor:pointer;transition:background .15s}
-  button:hover{background:var(--teal-dark)}
-  button.secondary{background:#eee;color:#333}
-  button.secondary:hover{background:#ddd}
-  button.danger{background:#e60000}
-  button.danger:hover{background:#b30000}
+/* ── PAGE ── */
+.page{max-width:680px;margin:0 auto;padding:1.25rem 1rem 6rem}
 
-  /* PRESET SECTION */
-  #presetSection{font-size:13px;margin:.4rem 0;background:#fff;border:1px solid #d8e6e6;border-radius:6px;padding:.5rem .6rem}
-  #presetSection h3{margin:0 0 .4rem;font-size:12px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;color:var(--teal-dark)}
-  #presets{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
-  #presets label{font-weight:700;color:#444}
-  #presets input[type=range]{width:3rem;accent-color:var(--teal)}
-  #pval{font-weight:900;color:var(--teal-dark);cursor:help}
-  #presetBtns{display:flex;gap:.35rem;flex-wrap:wrap;margin-top:.4rem}
-  #presetBtns button{font-size:12px;padding:.2rem .45rem;background:#e8f7f7;color:var(--teal-dark);border:1px solid #b2e0e0}
-  #presetBtns button:hover{background:#d0eeee}
+/* ── GENERIC CARD ── */
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:1rem 1.1rem;margin-bottom:.75rem}
 
-  /* OPTS */
-  #opts{font-size:13px;display:flex;gap:.5rem;margin-bottom:.4rem;flex-wrap:wrap;align-items:center}
-  #opts label{display:flex;align-items:center;gap:.3rem;font-weight:700;cursor:pointer}
+/* ── ADD CARD ── */
+.add-row{display:flex;gap:.5rem;align-items:center}
+.add-row input{flex:1;border:1.5px solid var(--border);border-radius:var(--radius-sm);padding:.6rem .85rem;font-size:14px;font-family:inherit;font-weight:700;background:#fff;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.add-row input:focus{outline:none;border-color:var(--teal);box-shadow:0 0 0 3px rgba(42,191,191,.15)}
+.add-row input::placeholder{color:var(--muted);font-weight:400}
+.btn-add{background:var(--teal);color:#fff;border:none;border-radius:var(--radius-sm);padding:.6rem 1.1rem;font-size:14px;font-weight:900;white-space:nowrap;transition:background .15s,transform .1s}
+.btn-add:hover{background:var(--teal-dark)}
+.btn-add:active{transform:scale(.97)}
 
-  /* LIST */
-  #rankList{list-style:none;margin:0;padding:0;position:relative}
-  #emptyState{display:none;text-align:center;padding:1.2rem .5rem;color:#999;font-size:13px;font-style:italic}
-  li{display:flex;flex-wrap:wrap;align-items:center;gap:.3rem;background:#fff;border:1px solid #d0d0d0;border-radius:4px;padding:.2rem .3rem;margin:.15rem 0}
-  li:nth-child(odd){background:#fafbfc}
-  li.dragging{opacity:.5}
-  .txt{flex:1 1 100%;font-weight:700;padding-left:.2rem;border-radius:3px;cursor:default}
-  .txt::after{content:' · dbl-click to edit';font-size:10px;color:#bbb;font-weight:400}
-  .txt[contenteditable="true"]{outline:2px solid var(--teal);padding:.1rem .25rem;cursor:text;background:#f0fafa}
-  .txt[contenteditable="true"]::after{content:''}
-  .sliders{display:flex;gap:.3rem;align-items:center;margin-top:.1rem;flex-wrap:wrap}
-  .sliders label{font-size:11px;font-weight:700}
-  .sliders input{width:3rem;accent-color:var(--teal)}
-  .prio{background:#222;color:#fff;padding:.1rem .25rem;border-radius:3px;font-size:11px;font-weight:900;min-width:2rem;text-align:center;cursor:help}
-  .rm{background:transparent;color:#d00;border:none;font-size:15px;cursor:pointer;line-height:1;margin-left:.2rem;padding:0 .2rem}
-  .rm:hover{background:transparent;color:#900}
-  .notes-btn{background:transparent;color:#aaa;border:1px solid #ddd;font-size:11px;font-weight:700;font-family:inherit;padding:.1rem .35rem;border-radius:3px;cursor:pointer;line-height:1.4}
-  .notes-btn:hover{background:#f0fafa;color:var(--teal-dark);border-color:var(--teal)}
-  .notes-btn.has-note{color:var(--teal-dark);border-color:var(--teal);background:#e8f7f7}
-  .notes-area{display:none;flex:1 1 100%;box-sizing:border-box;margin-top:.3rem;padding:.35rem .4rem;font-size:12px;font-family:inherit;border:1px solid #d0e8e8;border-radius:4px;resize:vertical;min-height:3.5rem;color:#333;background:#f8fffe;line-height:1.45}
-  .notes-area:focus{border-color:var(--teal);outline:none;background:#fff}
-  .notes-area.open{display:block}
+.add-tools{display:flex;gap:.35rem;align-items:center;margin-top:.6rem;flex-wrap:wrap}
+.tool-btn{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--radius-xs);padding:.28rem .6rem;font-size:12px;font-weight:700;color:var(--muted);transition:all .15s}
+.tool-btn:hover{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light)}
+.tool-btn.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light)}
 
-  /* FIXED PREVIEW */
-  #outWrap{margin-top:.5rem;background:#fff;border:1px solid #ccc;border-radius:4px;padding:.4rem;max-height:10rem;overflow:auto;font-size:12px}
-  #out{margin:0;white-space:pre;font-family:inherit}
+.preset-quick{display:flex;gap:.3rem;flex-wrap:wrap;margin-left:auto}
+.preset-quick button{font-size:11px;font-weight:700;background:var(--teal-light);color:var(--teal-dark);border:1px solid var(--teal-mid);border-radius:var(--radius-xs);padding:.18rem .5rem;transition:background .15s}
+.preset-quick button:hover{background:var(--teal-mid)}
 
-  /* MATRIX */
-  #header{text-align:center;font-size:12px;font-weight:700;color:#666;margin-bottom:4px}
-  #matrixWrap{width:100%;margin-bottom:.5rem}
-  #matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;font-size:12px}
-  .cell{background:#e9e9e9;border-radius:4px;padding:6px;min-height:52px;display:flex;flex-direction:column}
-  .cell-label{font-size:10px;font-weight:900;color:#888;margin-bottom:2px}
-  .cell ul{margin:2px 0 0 10px;padding:0;font-size:11px}
-  .cell li{background:transparent;border:none;margin:1px 0;padding:0;font-size:11px}
+/* Collapsible via CSS grid trick */
+.collapsible{display:grid;grid-template-rows:0fr;transition:grid-template-rows .22s ease;overflow:hidden}
+.collapsible.open{grid-template-rows:1fr}
+.collapsible__inner{overflow:hidden}
+.collapsible.open .collapsible__inner{padding-top:.7rem}
 
-  /* UNDO TOAST */
-  #undoToast{display:none;position:fixed;bottom:60px;left:50%;transform:translateX(-50%);background:#222;color:#fff;padding:.45rem .9rem;border-radius:6px;font-size:13px;font-weight:700;gap:.6rem;align-items:center;z-index:1000;box-shadow:0 4px 16px rgba(0,0,0,.25)}
-  #undoToast.visible{display:flex}
-  #undoBtn{background:var(--teal);color:#fff;padding:.2rem .5rem;border-radius:4px;font-size:12px}
-  #undoBtn:hover{background:var(--teal-dark)}
+/* Defaults sliders */
+.defaults-sliders{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap}
+.defaults-sliders label{display:flex;align-items:center;gap:.3rem;font-size:12px;font-weight:700;color:var(--muted)}
+.defaults-sliders input[type=range]{width:75px;accent-color:var(--teal)}
+.d-val{font-weight:900;color:var(--teal-dark);min-width:1.2em}
+#pval{font-size:12px;font-weight:900;color:var(--teal-dark);background:var(--teal-light);border:1px solid var(--teal-mid);border-radius:var(--radius-xs);padding:.15rem .5rem;cursor:help;margin-left:.25rem}
 
-  /* GUIDE OVERLAY */
-  #guideBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999}
-  #guideContent{background:var(--bg);max-width:620px;margin:10vh auto;padding:1.5rem 2rem;border-radius:8px;font-size:14px;line-height:1.45;max-height:80vh;overflow:auto}
-  #guideContent h2{margin-top:0;color:#1A3333}
-  #guideContent ul{padding-left:1.2rem}
-  #closeGuide{float:right;font-size:20px;background:none;color:var(--teal);border:none;cursor:pointer}
+#newNote{display:none;width:100%;margin-top:.55rem;padding:.45rem .65rem;font-size:13px;font-family:inherit;border:1.5px solid var(--border);border-radius:var(--radius-xs);resize:vertical;min-height:3rem;background:var(--bg);color:var(--ink)}
+#newNote:focus{outline:none;border-color:var(--teal);background:#fff}
+#newNote.open{display:block}
+
+/* ── TOOLBAR ── */
+.toolbar{display:flex;gap:.35rem;align-items:center;flex-wrap:wrap;margin-bottom:.85rem}
+.toolbar-sep{flex:1}
+.sort-label{display:flex;align-items:center;gap:.3rem;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer;user-select:none}
+.sort-label input{accent-color:var(--teal);cursor:pointer}
+
+/* ── ITEM CARDS ── */
+#rankList{list-style:none;padding:0;margin:0}
+.item-card{background:var(--card);border:1.5px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-sm);padding:.75rem 1rem;margin-bottom:.5rem;transition:box-shadow .15s,border-color .15s}
+.item-card:hover{box-shadow:var(--shadow)}
+.item-card.dragging{opacity:.4}
+
+.card-top{display:flex;align-items:center;gap:.45rem}
+
+/* Score badge */
+.prio-badge{flex-shrink:0;font-size:11px;font-weight:900;padding:.18rem .5rem;border-radius:6px;cursor:help;white-space:nowrap}
+.score-low{background:#F3F4F6;color:#6B7280}
+.score-med{background:#FEF3C7;color:#D97706}
+.score-good{background:#DCFCE7;color:#16A34A}
+.score-great{background:var(--teal-light);color:var(--teal-dark)}
+
+/* Item text */
+.txt{flex:1;font-weight:700;font-size:14px;color:var(--ink);border-radius:4px;padding:.1rem .2rem;margin:0 -.2rem;cursor:default;line-height:1.4;word-break:break-word}
+.txt::after{content:' · dbl-click to edit';font-size:10px;color:#ccc;font-weight:400}
+.txt[contenteditable="true"]{outline:2px solid var(--teal);cursor:text;background:var(--teal-light)}
+.txt[contenteditable="true"]::after{content:''}
+
+/* Card action buttons */
+.card-btns{display:flex;align-items:center;gap:.2rem;flex-shrink:0}
+.card-btn{background:none;border:1.5px solid var(--border);border-radius:8px;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--muted);transition:all .15s;padding:0;line-height:1}
+.card-btn:hover{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light)}
+.card-btn.active{border-color:var(--teal);color:var(--teal-dark);background:var(--teal-light)}
+.card-btn.rm{color:#EF4444;border-color:transparent}
+.card-btn.rm:hover{border-color:#EF4444;background:#FEF2F2;color:#DC2626}
+
+/* Inline sliders */
+.slider-row{display:flex;align-items:center;gap:.5rem;margin-bottom:.3rem}
+.slider-row:last-child{margin-bottom:0}
+.slider-name{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;min-width:54px}
+.slider-input{flex:1;accent-color:var(--teal);cursor:pointer}
+.slider-val{font-size:12px;font-weight:900;color:var(--ink);min-width:1.4em;text-align:right}
+
+/* Notes area */
+.notes-area{display:none;width:100%;margin-top:.5rem;padding:.4rem .55rem;font-size:12px;font-family:inherit;line-height:1.45;border:1.5px solid var(--border);border-radius:var(--radius-xs);resize:vertical;min-height:3rem;background:var(--bg);color:var(--ink)}
+.notes-area:focus{outline:none;border-color:var(--teal);background:#fff}
+.notes-area.open{display:block}
+
+/* ── EMPTY STATE ── */
+#emptyState{display:none;text-align:center;padding:2.5rem 1rem;color:var(--muted)}
+.empty-icon{font-size:2.5rem;margin-bottom:.65rem;opacity:.45;display:block}
+.empty-text{font-size:.95rem;font-weight:900;color:var(--ink)}
+.empty-sub{font-size:.8rem;margin-top:.25rem;opacity:.7}
+
+/* ── MATRIX ── */
+.matrix-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:.5rem}
+.matrix-axis{font-size:10px;font-weight:700;color:var(--muted);text-align:center;margin-bottom:5px}
+#matrix{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.cell{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-xs);padding:6px 8px;min-height:54px;display:flex;flex-direction:column}
+.cell-label{font-size:9px;font-weight:900;color:var(--muted);margin-bottom:3px;text-transform:uppercase;letter-spacing:.04em}
+.cell ul{list-style:none;padding:0}
+.cell ul li{font-size:10px;padding:1px 0;background:transparent;border:none;margin:0;box-shadow:none}
+
+/* ── OUTPUT (hidden, used for Copy) ── */
+#outWrap{display:none}
+#out{white-space:pre;font-family:inherit}
+
+/* ── UNDO TOAST ── */
+#undoToast{display:none;position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:.5rem 1rem;border-radius:12px;font-size:13px;font-weight:700;gap:.6rem;align-items:center;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,.25);white-space:nowrap}
+#undoToast.visible{display:flex}
+#undoBtn{background:var(--teal);color:#fff;border:none;padding:.2rem .6rem;border-radius:6px;font-size:12px;font-weight:900}
+#undoBtn:hover{background:var(--teal-dark)}
+
+/* ── GUIDE ── */
+#guideBox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:999}
+#guideContent{background:#fff;max-width:600px;margin:8vh auto 0;padding:1.75rem 2rem;border-radius:var(--radius);font-size:14px;line-height:1.55;max-height:84vh;overflow:auto;box-shadow:0 8px 40px rgba(0,0,0,.2)}
+#guideContent h2{margin:0 0 .75rem;color:var(--ink);font-size:1.2rem}
+#guideContent ul{padding-left:1.2rem}
+#guideContent li{margin-bottom:.45rem}
+#closeGuide{float:right;font-size:22px;background:none;color:var(--muted);border:none;cursor:pointer;line-height:1}
+#closeGuide:hover{color:var(--ink)}
+
+@media(max-width:480px){
+  .app-header__inner{flex-wrap:wrap}
+  .proj-bar{margin-left:0;width:100%}
+  .preset-quick{margin-left:0}
+}
 </style>
 </head>
 <body>
 
-<h1>Prio<span>Storm</span></h1>
-
-<!-- PROJECT SWITCHER -->
-<div id="projBar">
-  <label>Project:
-    <select id="projSelect" style="font-family:inherit;font-size:13px;border:1px solid #bbb;border-radius:4px;padding:.15rem .3rem"></select>
-  </label>
-  <button id="newProjBtn" class="secondary">New</button>
-  <button id="delProjBtn" class="secondary">Delete</button>
-</div>
-
-<div id="bar">
-  <input id="newItem" placeholder="Type an idea and press Enter" autocomplete="off">
-  <button id="noteToggleBtn" title="Add a note with this idea">📝</button>
-  <button id="addBtn">Add</button>
-</div>
-<textarea id="newNote" placeholder="Optional note or context…"></textarea>
-
-<!-- DEFAULTS FOR NEXT ITEM -->
-<div id="presetSection">
-  <h3>Defaults for next item</h3>
-  <div id="presets">
-    <label>I<input type="range" id="pi" min="0" max="5" value="3"></label>
-    <label>U<input type="range" id="pu" min="0" max="5" value="3"></label>
-    <label>E<input type="range" id="pe" min="0" max="5" value="2"></label>
-    <span id="pval" title="Score = Impact × Urgency ÷ (Effort + 1)">P=4.5</span>
+<header class="app-header">
+  <div class="app-header__inner">
+    <div class="app-logo">⚡</div>
+    <div>
+      <h1>Prio<span>Storm</span></h1>
+      <p class="app-tagline">Rank what matters most</p>
+    </div>
+    <div class="proj-bar" id="projBar">
+      <select id="projSelect"></select>
+      <button id="newProjBtn">+ New</button>
+      <button id="delProjBtn">×</button>
+    </div>
   </div>
-  <div id="presetBtns">
-    <button onclick="applyPreset(5,5,1)">⚡ Quick Win</button>
-    <button onclick="applyPreset(5,3,4)">🏗️ Big Bet</button>
-    <button onclick="applyPreset(3,1,4)">📦 Backlog</button>
-    <button onclick="applyPreset(1,5,1)">🔥 Urgent/Low impact</button>
+</header>
+
+<div class="page">
+
+<!-- ADD CARD -->
+<div class="card">
+  <div class="add-row">
+    <input id="newItem" placeholder="What's the idea? Type and press Enter…" autocomplete="off">
+    <button class="btn-add" id="addBtn">Add</button>
   </div>
+  <div class="add-tools">
+    <button class="tool-btn" id="noteToggleBtn">📝 Note</button>
+    <button class="tool-btn" id="defaultsToggleBtn">⚙ Defaults</button>
+    <div class="preset-quick">
+      <button onclick="applyPreset(5,5,1)">⚡ Quick Win</button>
+      <button onclick="applyPreset(5,3,4)">🏗 Big Bet</button>
+      <button onclick="applyPreset(3,1,4)">📦 Backlog</button>
+      <button onclick="applyPreset(1,5,1)">🔥 Urgent</button>
+    </div>
+  </div>
+  <div class="collapsible" id="defaultsPanel">
+    <div class="collapsible__inner">
+      <div class="defaults-sliders">
+        <label>Impact <input type="range" id="pi" min="0" max="5" value="3"> <span class="d-val" id="piv">3</span></label>
+        <label>Urgency <input type="range" id="pu" min="0" max="5" value="3"> <span class="d-val" id="puv">3</span></label>
+        <label>Effort <input type="range" id="pe" min="0" max="5" value="2"> <span class="d-val" id="pev">2</span></label>
+        <span id="pval" title="Score = Impact × Urgency ÷ (Effort + 1)">P=4.5</span>
+      </div>
+    </div>
+  </div>
+  <textarea id="newNote" placeholder="Optional note or context…"></textarea>
 </div>
 
-<!-- MATRIX -->
-<div id="matrixWrap">
-  <div id="header">Effort → &nbsp;&nbsp;&nbsp; Impact ↑</div>
-  <div id="matrix"></div>
+<!-- TOOLBAR -->
+<div class="toolbar">
+  <label class="sort-label"><input type="checkbox" id="autoSort"> Auto-sort</label>
+  <div class="toolbar-sep"></div>
+  <button class="tool-btn" id="copyBtn">Copy</button>
+  <button class="tool-btn" id="csvBtn">CSV</button>
+  <button class="tool-btn" id="clearBtn">Clear</button>
+  <button class="tool-btn" id="matrixToggleBtn">⊞ Matrix</button>
+  <button class="tool-btn" id="guideBtn">Guide</button>
 </div>
 
-<!-- ACTIONS -->
-<div id="opts">
-  <label><input type="checkbox" id="autoSort"> Auto-sort</label>
-  <button id="copyBtn">Copy</button>
-  <button id="csvBtn">CSV</button>
-  <button id="clearBtn" class="secondary">Clear</button>
-  <button id="guideBtn" class="secondary">Guide</button>
-</div>
-
+<!-- LIST -->
 <ul id="rankList"></ul>
-<div id="emptyState">Add your first idea above — rate it on impact, urgency and effort to see it ranked here.</div>
+
+<div id="emptyState">
+  <span class="empty-icon">🌪️</span>
+  <div class="empty-text">No ideas yet — start your brainstorm!</div>
+  <div class="empty-sub">Type an idea above and hit Add</div>
+</div>
+
+<!-- MATRIX PANEL -->
+<div class="collapsible" id="matrixPanel">
+  <div class="collapsible__inner">
+    <div class="card" style="margin-top:.25rem">
+      <div class="matrix-axis">Effort →&nbsp;&nbsp;&nbsp;&nbsp;Impact ↑</div>
+      <div id="matrix"></div>
+    </div>
+  </div>
+</div>
+
+<!-- OUTPUT (hidden; used for Copy) -->
 <div id="outWrap"><pre id="out">(empty)</pre></div>
+
+</div><!-- /page -->
 
 <!-- UNDO TOAST -->
 <div id="undoToast">
@@ -199,90 +268,74 @@
   <button id="undoBtn">Undo</button>
 </div>
 
-<!-- GUIDE OVERLAY -->
+<!-- GUIDE -->
 <div id="guideBox">
   <div id="guideContent">
     <button id="closeGuide">&times;</button>
     <h2>How to use PrioStorm</h2>
     <ul>
-      <li><strong>Add an idea:</strong> type a short description and press <em>Enter</em> or click <em>Add</em>.</li>
-      <li><strong>Set its factors:</strong>
+      <li><strong>Add an idea:</strong> type and press Enter or click Add.</li>
+      <li><strong>⚙ button</strong> on each card expands three priority sliders:
         <ul>
-          <li><strong>Impact (I):</strong> how big is the positive effect? (0–5)</li>
-          <li><strong>Urgency (U):</strong> how soon must it be done? (0–5)</li>
-          <li><strong>Effort (E):</strong> how much work is required? (0–5, higher = more work)</li>
+          <li><strong>Impact:</strong> how big is the positive effect? (0–5)</li>
+          <li><strong>Urgency:</strong> how soon must it be done? (0–5)</li>
+          <li><strong>Effort:</strong> how much work is required? (0–5, higher = more work)</li>
         </ul>
       </li>
-      <li><strong>Priority score</strong> = (I × U) ÷ (E + 1). Higher is better.</li>
+      <li><strong>Score</strong> = (Impact × Urgency) ÷ (Effort + 1). The badge color reflects the score — grey to teal as priority rises.</li>
       <li><strong>Edit an item:</strong> double-click its title to rename it.</li>
-      <li><strong>Add notes:</strong> click the 📝 button on any item to expand a free-text notes area for context, reasoning or brainstorming. A filled note turns the button teal. Notes are saved and included in the CSV export.</li>
-      <li><strong>Preset shortcuts</strong> let you quickly set I/U/E defaults for your next item — e.g. "Quick Win" sets I=5 U=5 E=1.</li>
-      <li><strong>Matrix quick guide:</strong>
-        <ul>
-          <li><strong>Low-effort + High-impact:</strong> do these <em>first</em> (quick wins).</li>
-          <li><strong>Low-effort + Low-impact:</strong> fit in when time allows.</li>
-          <li><strong>High-effort + High-impact:</strong> plan &amp; resource carefully.</li>
-          <li><strong>High-effort + Low-impact:</strong> reconsider or drop.</li>
-        </ul>
-      </li>
-      <li>Urgency colours items in the matrix: <span style="color:#28a745">green</span> = low, <span style="color:#ff7700">orange</span> = medium, <span style="color:#dc3545">red</span> = high.</li>
-      <li>Drag cards to re-order (auto-sort off) or let the list sort itself by score.</li>
-      <li>Your work is saved automatically in this browser — reload and it comes back.</li>
-      <li><strong>Copy</strong> exports the ranked list as plain text. <strong>CSV</strong> downloads a spreadsheet.</li>
-      <li><strong>Clear</strong> removes everything after confirmation.</li>
+      <li><strong>📝 button</strong> adds a private note to any card.</li>
+      <li><strong>⚙ Defaults</strong> sets default I/U/E values for your next item. Preset buttons (Quick Win, Big Bet…) fill these in one click.</li>
+      <li><strong>⊞ Matrix</strong> opens the Effort × Impact visualization. Urgency colors items: <span style="color:#22C55E">green</span> = low, <span style="color:#F97316">orange</span> = medium, <span style="color:#EF4444">red</span> = high.</li>
+      <li>Drag cards to re-order (with Auto-sort off) or let the list sort itself by score.</li>
+      <li>Work is auto-saved in your browser. Use multiple projects to keep ideas separate.</li>
+      <li><strong>Copy</strong> exports ranked text. <strong>CSV</strong> downloads a spreadsheet including notes.</li>
       <li>Press <kbd>Esc</kbd> to close this guide.</li>
     </ul>
   </div>
 </div>
 
+<a href="https://dailyapp.happybein.com" style="position:fixed;bottom:14px;right:14px;height:30px;padding:0 12px;border-radius:15px;background:#2ABFBF;color:#fff;display:flex;align-items:center;gap:5px;font-family:Nunito,Arial,sans-serif;font-weight:700;font-size:12px;text-decoration:none;box-shadow:0 2px 8px rgba(42,191,191,0.4);z-index:9999;opacity:0.85;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='.85';">&#x229E; All apps</a>
+
 <script>
-/* ----------  PROJECT SUPPORT  ---------- */
+/* ══ PROJECTS ══ */
 const projSelect = document.getElementById('projSelect'),
       newProjBtn = document.getElementById('newProjBtn'),
       delProjBtn = document.getElementById('delProjBtn');
 
 function curKey(){ return 'brainstorm-' + projSelect.value; }
+
 function refreshProjList(){
-  projSelect.innerHTML='';
+  projSelect.innerHTML = '';
   const names = Object.keys(localStorage)
-                      .filter(k => k.startsWith('brainstorm-'))
-                      .map(k => k.replace('brainstorm-',''))
-                      .sort();
-  if(!names.length){
-    localStorage.setItem('brainstorm-My Project','[]');
-    names.push('My Project');
-  }
+    .filter(k => k.startsWith('brainstorm-'))
+    .map(k => k.replace('brainstorm-',''))
+    .sort();
+  if(!names.length){ localStorage.setItem('brainstorm-My Project','[]'); names.push('My Project'); }
   names.forEach(n => projSelect.add(new Option(n,n)));
 }
+
 projSelect.onchange = () => {
-  list.innerHTML = '';
-  matrix.innerHTML = '';
-  loadFromStorage();
-  buildMatrix();
-  buildOut();
-  updateEmptyState();
+  list.innerHTML = ''; matrix.innerHTML = '';
+  loadFromStorage(); buildMatrix(); buildOut(); updateEmptyState();
 };
 newProjBtn.onclick = () => {
   const name = prompt('New project name:')?.trim();
   if(!name) return;
   localStorage.setItem('brainstorm-'+name,'[]');
-  refreshProjList();
-  projSelect.value = name;
-  list.innerHTML = '';
-  matrix.innerHTML = '';
+  refreshProjList(); projSelect.value = name;
+  list.innerHTML = ''; matrix.innerHTML = '';
   projSelect.onchange();
 };
 delProjBtn.onclick = () => {
-  if(confirm('Delete project "' + projSelect.value + '"?')){
+  if(confirm('Delete project "'+projSelect.value+'"?')){
     localStorage.removeItem(curKey());
-    refreshProjList();
-    projSelect.selectedIndex=0;
-    projSelect.onchange();
+    refreshProjList(); projSelect.selectedIndex = 0; projSelect.onchange();
   }
 };
 refreshProjList();
 
-/* ----------  ELEMENT REFS  ---------- */
+/* ══ REFS ══ */
 const list       = document.getElementById('rankList'),
       input      = document.getElementById('newItem'),
       addBtn     = document.getElementById('addBtn'),
@@ -297,184 +350,193 @@ const list       = document.getElementById('rankList'),
       emptyState = document.getElementById('emptyState'),
       matrix     = document.getElementById('matrix'),
       undoToast  = document.getElementById('undoToast'),
-      undoMsg    = document.getElementById('undoMsg'),
       undoBtn    = document.getElementById('undoBtn'),
-      pi=document.getElementById('pi'),
-      pu=document.getElementById('pu'),
-      pe=document.getElementById('pe'),
+      pi=document.getElementById('pi'), pu=document.getElementById('pu'), pe=document.getElementById('pe'),
+      piv=document.getElementById('piv'), puv=document.getElementById('puv'), pev=document.getElementById('pev'),
       pval=document.getElementById('pval');
 
-/* ----------  GUIDE  ---------- */
-guideBtn.onclick  = () => guideBox.style.display = 'block';
-closeGuide.onclick= () => guideBox.style.display = 'none';
-guideBox.onclick  = e => { if(e.target === guideBox) guideBox.style.display = 'none'; };
-document.addEventListener('keydown', e => {
-  if(e.key === 'Escape' && guideBox.style.display === 'block') guideBox.style.display = 'none';
-});
+/* ══ GUIDE ══ */
+guideBtn.onclick   = () => guideBox.style.display = 'block';
+closeGuide.onclick = () => guideBox.style.display = 'none';
+guideBox.onclick   = e => { if(e.target===guideBox) guideBox.style.display='none'; };
+document.addEventListener('keydown', e => { if(e.key==='Escape' && guideBox.style.display==='block') guideBox.style.display='none'; });
 
-/* ----------  PRESETS  ---------- */
+/* ══ MATRIX TOGGLE ══ */
+const matrixPanel      = document.getElementById('matrixPanel');
+const matrixToggleBtn  = document.getElementById('matrixToggleBtn');
+matrixToggleBtn.onclick = () => {
+  const open = matrixPanel.classList.toggle('open');
+  matrixToggleBtn.classList.toggle('active', open);
+};
+
+/* ══ DEFAULTS TOGGLE ══ */
+const defaultsPanel     = document.getElementById('defaultsPanel');
+const defaultsToggleBtn = document.getElementById('defaultsToggleBtn');
+defaultsToggleBtn.onclick = () => {
+  const open = defaultsPanel.classList.toggle('open');
+  defaultsToggleBtn.classList.toggle('active', open);
+};
+
+/* ══ PRESETS ══ */
 function applyPreset(i,u,e){
-  pi.value=i; pu.value=u; pe.value=e;
-  updatePresets();
+  pi.value=i; pu.value=u; pe.value=e; updatePresets();
+  defaultsPanel.classList.add('open'); defaultsToggleBtn.classList.add('active');
 }
 function updatePresets(){
-  const score = prio(+pi.value,+pu.value,+pe.value);
-  pval.textContent='P='+score.toFixed(1);
+  piv.textContent=pi.value; puv.textContent=pu.value; pev.textContent=pe.value;
+  pval.textContent='P='+prio(+pi.value,+pu.value,+pe.value).toFixed(1);
 }
 [pi,pu,pe].forEach(el=>el.addEventListener('input',updatePresets));
 updatePresets();
 
-/* ----------  HELPERS  ---------- */
+/* ══ HELPERS ══ */
 function prio(i,u,e){ return (i*u)/(e+1); }
-
-function cardPrio(card){
-  return prio(+card.querySelector('.i').value, +card.querySelector('.u').value, +card.querySelector('.e').value);
-}
+function cardPrio(card){ return prio(+card.querySelector('.i').value,+card.querySelector('.u').value,+card.querySelector('.e').value); }
+function scoreClass(p){ return p>=10?'score-great':p>=5?'score-good':p>=2?'score-med':'score-low'; }
 
 function updateCard(card){
-  const p = cardPrio(card).toFixed(1);
-  const prioEl = card.querySelector('.prio');
-  prioEl.textContent = 'P='+p;
+  const p = cardPrio(card);
+  const badge = card.querySelector('.prio-badge');
+  badge.textContent = 'P='+p.toFixed(1);
+  badge.className   = 'prio-badge '+scoreClass(p);
+  ['i','u','e'].forEach(c=>{
+    const v = card.querySelector('.slider-val-'+c);
+    if(v) v.textContent = card.querySelector('.'+c).value;
+  });
   if(autoSortCk.checked) sortList();
-  buildMatrix();
-  buildOut();
-  saveToStorage();
+  buildMatrix(); buildOut(); saveToStorage();
 }
 
 function updateEmptyState(){
-  const hasItems = list.querySelectorAll('li').length > 0;
-  emptyState.style.display = hasItems ? 'none' : 'block';
+  emptyState.style.display = list.querySelectorAll('li').length ? 'none' : 'block';
 }
 
-/* ----------  UNDO  ---------- */
-let undoTimer = null;
-let undoSnapshot = null; // {html, key}
-
-function showUndo(cardHtml){
+/* ══ UNDO ══ */
+let undoTimer=null, undoSnapshot=null;
+function showUndo(){
   clearTimeout(undoTimer);
-  undoSnapshot = { html: cardHtml, key: curKey() };
   undoToast.classList.add('visible');
-  undoTimer = setTimeout(() => {
-    undoToast.classList.remove('visible');
-    undoSnapshot = null;
-  }, 3500);
+  undoTimer=setTimeout(()=>{ undoToast.classList.remove('visible'); undoSnapshot=null; },3500);
 }
-
 undoBtn.onclick = () => {
-  clearTimeout(undoTimer);
-  undoToast.classList.remove('visible');
+  clearTimeout(undoTimer); undoToast.classList.remove('visible');
   if(!undoSnapshot) return;
-  // Re-hydrate from saved snapshot
-  const saved = JSON.parse(localStorage.getItem(undoSnapshot.key) || '[]');
-  // undoSnapshot.item holds the raw item data
+  const saved = JSON.parse(localStorage.getItem(undoSnapshot.key)||'[]');
   if(undoSnapshot.item){
     saved.push(undoSnapshot.item);
     localStorage.setItem(undoSnapshot.key, JSON.stringify(saved));
-    if(curKey() === undoSnapshot.key){
-      const card = makeCard(undoSnapshot.item.text, undoSnapshot.item.i, undoSnapshot.item.u, undoSnapshot.item.e, undoSnapshot.item.notes||'');
-      list.appendChild(card);
+    if(curKey()===undoSnapshot.key){
+      list.appendChild(makeCard(undoSnapshot.item.text,undoSnapshot.item.i,undoSnapshot.item.u,undoSnapshot.item.e,undoSnapshot.item.notes||''));
       if(autoSortCk.checked) sortList();
       buildMatrix(); buildOut(); updateEmptyState();
     }
   }
-  undoSnapshot = null;
+  undoSnapshot=null;
 };
 
-/* ----------  CARD FACTORY  ---------- */
-function makeCard(text, i=3, u=3, e=2, notes=''){
+/* ══ CARD FACTORY ══ */
+function makeCard(text,i=3,u=3,e=2,notes=''){
   const li = document.createElement('li');
+  li.className = 'item-card';
   li.draggable = true;
-  li.innerHTML = `<div class="txt">${text}</div>
-<div class="sliders">
-  <label>I<input type="range" class="i" min="0" max="5" value="${i}"></label>
-  <label>U<input type="range" class="u" min="0" max="5" value="${u}"></label>
-  <label>E<input type="range" class="e" min="0" max="5" value="${e}"></label>
-  <span class="prio" title="Score = Impact × Urgency ÷ (Effort + 1)">P=${prio(+i,+u,+e).toFixed(1)}</span>
-</div>
-<button class="notes-btn" title="Toggle notes">📝</button>
-<button class="rm" title="Delete">×</button>
-<textarea class="notes-area" placeholder="Add notes, context or brainstorming thoughts…"></textarea>`;
+  const p = prio(+i,+u,+e);
 
-  // Slider events
-  ['i','u','e'].forEach(c => li.querySelector('.'+c).addEventListener('input', () => updateCard(li)));
+  li.innerHTML=`
+<div class="card-top">
+  <span class="prio-badge ${scoreClass(p)}" title="Score = Impact x Urgency / (Effort+1)">P=${p.toFixed(1)}</span>
+  <div class="txt">${text}</div>
+  <div class="card-btns">
+    <button class="card-btn prio-btn" title="Set priority">⚙</button>
+    <button class="card-btn notes-btn" title="Add notes">📝</button>
+    <button class="card-btn rm" title="Delete">×</button>
+  </div>
+</div>
+<div class="collapsible sliders-panel">
+  <div class="collapsible__inner">
+    <div class="slider-row">
+      <span class="slider-name">Impact</span>
+      <input type="range" class="slider-input i" min="0" max="5" value="${i}">
+      <span class="slider-val slider-val-i">${i}</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-name">Urgency</span>
+      <input type="range" class="slider-input u" min="0" max="5" value="${u}">
+      <span class="slider-val slider-val-u">${u}</span>
+    </div>
+    <div class="slider-row">
+      <span class="slider-name">Effort</span>
+      <input type="range" class="slider-input e" min="0" max="5" value="${e}">
+      <span class="slider-val slider-val-e">${e}</span>
+    </div>
+  </div>
+</div>
+<textarea class="notes-area" placeholder="Notes, context or brainstorming…"></textarea>`;
+
+  // Sliders
+  ['i','u','e'].forEach(c=>li.querySelector('.'+c).addEventListener('input',()=>updateCard(li)));
+
+  // Priority toggle
+  const prioBtn     = li.querySelector('.prio-btn');
+  const slidersPanel = li.querySelector('.sliders-panel');
+  prioBtn.onclick = () => {
+    const open = slidersPanel.classList.toggle('open');
+    prioBtn.classList.toggle('active', open);
+  };
 
   // Notes toggle
   const notesBtn  = li.querySelector('.notes-btn');
   const notesArea = li.querySelector('.notes-area');
-  if(notes){ notesArea.value = notes; notesBtn.classList.add('has-note'); }
+  if(notes){ notesArea.value=notes; notesBtn.classList.add('active'); }
   notesBtn.onclick = () => {
     const opening = !notesArea.classList.contains('open');
-    notesArea.classList.toggle('open', opening);
+    notesArea.classList.toggle('open',opening);
+    notesBtn.classList.toggle('active',opening);
     if(opening) notesArea.focus();
   };
-  notesArea.addEventListener('input', () => {
-    notesBtn.classList.toggle('has-note', notesArea.value.trim().length > 0);
-    saveToStorage();
-  });
-  // Prevent drag starting on the textarea
-  notesArea.addEventListener('mousedown', e => e.stopPropagation());
-  notesArea.addEventListener('dragstart',  e => e.stopPropagation());
+  notesArea.addEventListener('input',()=>{ notesBtn.classList.toggle('active',notesArea.value.trim().length>0); saveToStorage(); });
+  notesArea.addEventListener('mousedown',e=>e.stopPropagation());
+  notesArea.addEventListener('dragstart', e=>e.stopPropagation());
 
-  // Double-click to edit text
+  // Double-click edit
   const txtEl = li.querySelector('.txt');
-  txtEl.addEventListener('dblclick', () => {
-    li.draggable = false;           // prevent drag interfering with text selection
-    txtEl.contentEditable = 'true';
-    txtEl.focus();
-    // Select all text
-    const range = document.createRange();
-    range.selectNodeContents(txtEl);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
+  txtEl.addEventListener('dblclick',()=>{
+    li.draggable=false; txtEl.contentEditable='true'; txtEl.focus();
+    const r=document.createRange(); r.selectNodeContents(txtEl);
+    const s=window.getSelection(); s.removeAllRanges(); s.addRange(r);
   });
-  txtEl.addEventListener('blur', () => {
-    if(txtEl.contentEditable !== 'true') return;
-    txtEl.contentEditable = 'false';
-    li.draggable = true;
-    if(!txtEl.textContent.trim()) txtEl.textContent = text;
-    saveToStorage();
-    buildOut();
+  txtEl.addEventListener('blur',()=>{
+    if(txtEl.contentEditable!=='true') return;
+    txtEl.contentEditable='false'; li.draggable=true;
+    if(!txtEl.textContent.trim()) txtEl.textContent=text;
+    saveToStorage(); buildOut();
   });
-  txtEl.addEventListener('keydown', e => {
-    if(e.key === 'Enter'){ e.preventDefault(); txtEl.blur(); }
-  });
+  txtEl.addEventListener('keydown',e=>{ if(e.key==='Enter'){e.preventDefault();txtEl.blur();} });
 
-  // Delete with undo
-  li.querySelector('.rm').onclick = () => {
-    const itemData = {
-      text:  li.querySelector('.txt').textContent.trim(),
-      i:     li.querySelector('.i').value,
-      u:     li.querySelector('.u').value,
-      e:     li.querySelector('.e').value,
-      notes: li.querySelector('.notes-area').value
-    };
-    li.remove();
-    buildMatrix(); buildOut(); saveToStorage(); updateEmptyState();
-    showUndo();
-    undoSnapshot = { item: itemData, key: curKey() };
+  // Delete
+  li.querySelector('.rm').onclick=()=>{
+    const itemData={text:li.querySelector('.txt').textContent.trim(),i:li.querySelector('.i').value,u:li.querySelector('.u').value,e:li.querySelector('.e').value,notes:li.querySelector('.notes-area').value};
+    li.remove(); buildMatrix(); buildOut(); saveToStorage(); updateEmptyState();
+    showUndo(); undoSnapshot={item:itemData,key:curKey()};
   };
 
-  // Drag events
-  li.addEventListener('dragstart', e => { e.dataTransfer.effectAllowed='move'; li.classList.add('dragging'); });
-  li.addEventListener('dragend',   () => { li.classList.remove('dragging'); saveToStorage(); });
-  li.addEventListener('dragover',  e => {
+  // Drag
+  li.addEventListener('dragstart',e=>{ e.dataTransfer.effectAllowed='move'; li.classList.add('dragging'); });
+  li.addEventListener('dragend',  ()=>{ li.classList.remove('dragging'); saveToStorage(); });
+  li.addEventListener('dragover', e=>{
     if(autoSortCk.checked) return;
     e.preventDefault();
-    const d = document.querySelector('.dragging');
-    const after = getAfter(list, e.clientY);
-    if(!after) list.appendChild(d); else list.insertBefore(d, after);
+    const d=document.querySelector('.dragging');
+    const after=getAfter(list,e.clientY);
+    if(!after) list.appendChild(d); else list.insertBefore(d,after);
   });
 
-  updateCard(li);
   return li;
 }
 
 function getAfter(c,y){
-  const dr=[...c.querySelectorAll('li:not(.dragging)')];
-  return dr.reduce((close,child)=>{
-    const box=child.getBoundingClientRect(),o=y-box.top-box.height/2;
-    return o<0&&o>close.offset?{offset:o,element:child}:close;
+  return [...c.querySelectorAll('li:not(.dragging)')].reduce((cl,ch)=>{
+    const b=ch.getBoundingClientRect(),o=y-b.top-b.height/2;
+    return o<0&&o>cl.offset?{offset:o,element:ch}:cl;
   },{offset:Number.NEGATIVE_INFINITY}).element;
 }
 
@@ -484,153 +546,109 @@ function sortList(){
 }
 
 function buildOut(){
-  const lines = [...list.querySelectorAll('li')].map((c,idx)=>`${idx+1}. ${c.querySelector('.txt').textContent.trim()}  (I=${c.querySelector('.i').value}×U=${c.querySelector('.u').value}÷E+1=${+c.querySelector('.e').value+1} → P=${cardPrio(c).toFixed(1)})`);
-  out.textContent = lines.join('\n') || '(empty)';
+  const lines=[...list.querySelectorAll('li')].map((c,idx)=>
+    `${idx+1}. ${c.querySelector('.txt').textContent.trim()}  (I=${c.querySelector('.i').value}xU=${c.querySelector('.u').value}/E+1=${+c.querySelector('.e').value+1} -> P=${cardPrio(c).toFixed(1)})`
+  );
+  out.textContent=lines.join('\n')||'(empty)';
 }
 
-/* ----------  ADD  ---------- */
+/* ══ ADD ══ */
 const newNote       = document.getElementById('newNote');
 const noteToggleBtn = document.getElementById('noteToggleBtn');
-
-noteToggleBtn.onclick = () => {
-  const opening = !newNote.classList.contains('open');
-  newNote.classList.toggle('open', opening);
-  noteToggleBtn.classList.toggle('active', opening);
+noteToggleBtn.onclick=()=>{
+  const opening=!newNote.classList.contains('open');
+  newNote.classList.toggle('open',opening);
+  noteToggleBtn.classList.toggle('active',opening);
   if(opening) newNote.focus();
 };
-
 function add(){
-  const v = input.value.trim();
-  if(!v) return;
-  const note = newNote.value;
-  const card = makeCard(v, +pi.value, +pu.value, +pe.value, note);
+  const v=input.value.trim(); if(!v) return;
+  const card=makeCard(v,+pi.value,+pu.value,+pe.value,newNote.value);
   list.appendChild(card);
-  input.value = '';
-  newNote.value = '';
-  // Collapse note area after adding
-  newNote.classList.remove('open');
-  noteToggleBtn.classList.remove('active');
+  input.value=''; newNote.value='';
+  newNote.classList.remove('open'); noteToggleBtn.classList.remove('active');
   input.focus();
   if(autoSortCk.checked) sortList();
   buildMatrix(); buildOut(); saveToStorage(); updateEmptyState();
 }
-addBtn.onclick = add;
-input.onkeydown = e => { if(e.key==='Enter') add(); };
+addBtn.onclick=add;
+input.onkeydown=e=>{ if(e.key==='Enter') add(); };
 
-/* ----------  TOOLBAR ACTIONS  ---------- */
-copyBtn.onclick = () => {
+/* ══ TOOLBAR ACTIONS ══ */
+copyBtn.onclick=()=>{
+  buildOut();
   navigator.clipboard.writeText(out.textContent);
-  copyBtn.textContent='✓ Copied';
-  setTimeout(()=>copyBtn.textContent='Copy', 1000);
+  copyBtn.textContent='Copied!';
+  setTimeout(()=>copyBtn.textContent='Copy',1500);
 };
-
-csvBtn.onclick = () => {
-  const rows = [['Rank','Item','Impact','Urgency','Effort','Score','Notes']];
+csvBtn.onclick=()=>{
+  const rows=[['Rank','Item','Impact','Urgency','Effort','Score','Notes']];
   [...list.querySelectorAll('li')].forEach((c,idx)=>{
-    const i=c.querySelector('.i').value, u=c.querySelector('.u').value, e=c.querySelector('.e').value;
-    const notesTxt = c.querySelector('.notes-area').value.replace(/"/g,'""');
-    rows.push([idx+1, '"'+c.querySelector('.txt').textContent.trim().replace(/"/g,'""')+'"', i, u, e, cardPrio(c).toFixed(2), '"'+notesTxt+'"']);
+    const i=c.querySelector('.i').value,u=c.querySelector('.u').value,e=c.querySelector('.e').value;
+    const nt=c.querySelector('.notes-area').value.replace(/"/g,'""');
+    rows.push([idx+1,'"'+c.querySelector('.txt').textContent.trim().replace(/"/g,'""')+'"',i,u,e,cardPrio(c).toFixed(2),'"'+nt+'"']);
   });
-  const csv = rows.map(r=>r.join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href=url; a.download=(projSelect.value||'priostorm')+'.csv'; a.click();
+  const blob=new Blob([rows.map(r=>r.join(',')).join('\n')],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download=(projSelect.value||'priostorm')+'.csv'; a.click();
   URL.revokeObjectURL(url);
 };
-
-clearBtn.onclick = () => {
-  if(confirm('Clear all items in "' + projSelect.value + '"?')){
-    list.innerHTML='';
-    localStorage.setItem(curKey(),'[]');
+clearBtn.onclick=()=>{
+  if(confirm('Clear all items in "'+projSelect.value+'"?')){
+    list.innerHTML=''; localStorage.setItem(curKey(),'[]');
     buildMatrix(); buildOut(); updateEmptyState();
   }
 };
+autoSortCk.onchange=()=>{ if(autoSortCk.checked) sortList(); };
 
-autoSortCk.onchange = () => { if(autoSortCk.checked) sortList(); };
-
-/* ----------  MATRIX  ---------- */
-const CELL_LABELS = [
-  // index 0 = low impact (bottom row)
-  ['Skip?','Skip?','Drop 🗑️'],
-  // index 1 = mid impact (middle row)
-  ['Fill-ins','Medium','Consider'],
-  // index 2 = high impact (top row)
-  ['Quick Wins ⭐','Plan it 📋','Big Bets 🏗️'],
-];
-
-function urgencyColor(u){
-  if(u<=1) return '#28a745';
-  if(u<=3) return '#ff7700';
-  return '#dc3545';
-}
-
+/* ══ MATRIX ══ */
+const CELL_LABELS=[['Skip?','Skip?','Drop 🗑️'],['Fill-ins','Medium','Consider'],['Quick Wins ⭐','Plan it 📋','Big Bets 🏗️']];
+function urgencyColor(u){ return u<=1?'#22C55E':u<=3?'#F97316':'#EF4444'; }
 function buildMatrix(){
-  const buckets = Array.from({length:3}, ()=>Array.from({length:3},()=>[]));
+  const buckets=Array.from({length:3},()=>Array.from({length:3},()=>[]));
   list.querySelectorAll('li').forEach(card=>{
-    const i = Math.min(2,Math.max(0,Math.floor(+card.querySelector('.i').value/2)));
-    const e = Math.min(2,Math.max(0,Math.floor(+card.querySelector('.e').value/2)));
-    const u = +card.querySelector('.u').value;
-    const txt = card.querySelector('.txt').textContent.trim();
-    buckets[i][e].push({txt,u});
+    const i=Math.min(2,Math.max(0,Math.floor(+card.querySelector('.i').value/2)));
+    const e=Math.min(2,Math.max(0,Math.floor(+card.querySelector('.e').value/2)));
+    buckets[i][e].push({txt:card.querySelector('.txt').textContent.trim(),u:+card.querySelector('.u').value});
   });
   matrix.innerHTML='';
-  for(let i=2;i>=0;i--){
-    for(let j=0;j<3;j++){
-      const cell=document.createElement('div'); cell.className='cell';
-      const labelDiv=document.createElement('div'); labelDiv.className='cell-label';
-      labelDiv.textContent=CELL_LABELS[i][j];
-      cell.appendChild(labelDiv);
-      const items=buckets[i][j];
-      if(items.length){
-        const ul=document.createElement('ul');
-        items.forEach(it=>{
-          const li2=document.createElement('li');
-          li2.textContent='· '+it.txt;
-          li2.style.color=urgencyColor(it.u);
-          ul.appendChild(li2);
-        });
-        cell.appendChild(ul);
-      }
-      matrix.appendChild(cell);
+  for(let i=2;i>=0;i--) for(let j=0;j<3;j++){
+    const cell=document.createElement('div'); cell.className='cell';
+    const lbl=document.createElement('div'); lbl.className='cell-label'; lbl.textContent=CELL_LABELS[i][j];
+    cell.appendChild(lbl);
+    if(buckets[i][j].length){
+      const ul=document.createElement('ul');
+      buckets[i][j].forEach(it=>{ const li2=document.createElement('li'); li2.textContent='· '+it.txt; li2.style.color=urgencyColor(it.u); ul.appendChild(li2); });
+      cell.appendChild(ul);
     }
+    matrix.appendChild(cell);
   }
 }
 
-/* ----------  STORAGE  ---------- */
-let _loading = false;
-
+/* ══ STORAGE ══ */
+let _loading=false;
 function saveToStorage(){
-  if(_loading) return;
-  if(document.querySelector('.dragging')) return;
-  const arr = [...list.querySelectorAll('li')].map(li=>({
-    text:  li.querySelector('.txt').textContent.trim(),
-    i:     li.querySelector('.i').value,
-    u:     li.querySelector('.u').value,
-    e:     li.querySelector('.e').value,
-    notes: li.querySelector('.notes-area').value
-  }));
-  localStorage.setItem(curKey(), JSON.stringify(arr));
+  if(_loading||document.querySelector('.dragging')) return;
+  localStorage.setItem(curKey(),JSON.stringify([...list.querySelectorAll('li')].map(li=>({
+    text:li.querySelector('.txt').textContent.trim(),
+    i:li.querySelector('.i').value,u:li.querySelector('.u').value,e:li.querySelector('.e').value,
+    notes:li.querySelector('.notes-area').value
+  }))));
 }
-
 function loadFromStorage(){
-  _loading = true;
+  _loading=true;
   try{
-    const raw = localStorage.getItem(curKey());
+    const raw=localStorage.getItem(curKey());
     if(raw) JSON.parse(raw).forEach(item=>list.appendChild(makeCard(item.text,item.i,item.u,item.e,item.notes||'')));
     buildMatrix(); buildOut();
     if(autoSortCk.checked) sortList();
   }catch(e){}
-  _loading = false;
-  saveToStorage(); // one clean save once all items are in the DOM
+  _loading=false; saveToStorage();
 }
 
-/* ----------  INIT  ---------- */
+/* ══ INIT ══ */
 projSelect.onchange();
 updateEmptyState();
 </script>
-
-<!-- HappyBein backlink -->
-<a href="https://dailyapp.happybein.com" style="position:fixed;bottom:14px;right:14px;height:30px;padding:0 12px;border-radius:15px;background:#2ABFBF;color:#fff;display:flex;align-items:center;gap:5px;font-family:Nunito,Arial,sans-serif;font-weight:700;font-size:12px;text-decoration:none;box-shadow:0 2px 8px rgba(42,191,191,0.4);z-index:9999;opacity:0.85;" onmouseover="this.style.opacity='1';" onmouseout="this.style.opacity='.85';">&#x229E; All apps</a>
 </body>
 </html>
